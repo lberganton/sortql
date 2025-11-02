@@ -13,7 +13,7 @@ static void assert(int condition, const char *msg) {
 void sortql(int *array, int length) {
   sqlite3 *connection;
   sqlite3_stmt *stmt;
-  int rc;
+  int rc, i;
 
   rc = sqlite3_open(":memory:", &connection);
   assert(rc == SQLITE_OK, "failed to open a connection");
@@ -24,7 +24,7 @@ void sortql(int *array, int length) {
   rc = sqlite3_prepare_v2(connection, "INSERT INTO array (num) VALUES (?)", -1, &stmt, NULL);
   assert(rc != SQLITE_OK, "failed to prepare insert statement");
 
-  for (int i = 0; i < length; i++) {
+  for (i = 0; i < length; i++) {
     rc = sqlite3_bind_int(stmt, 1, array[i]);
     assert(rc != SQLITE_OK, "failed to bind a int");
 
@@ -39,7 +39,7 @@ void sortql(int *array, int length) {
   rc = sqlite3_prepare_v2(connection, "SELECT num FROM array ORDER BY num", -1, &stmt, NULL);
   assert(rc != SQLITE_OK, "failed to prepare select statement");
 
-  for (int i = 0; i < length; i++) {
+  for (i = 0; i < length; i++) {
     rc = sqlite3_step(stmt);
     assert(rc != SQLITE_OK, "failed to select a value");
 
