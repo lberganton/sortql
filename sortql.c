@@ -22,14 +22,14 @@ void sortql(int *array, int length) {
   assert(rc == SQLITE_OK, "failed to create table");
 
   rc = sqlite3_prepare_v2(connection, "INSERT INTO array (num) VALUES (?)", -1, &stmt, NULL);
-  assert(rc != SQLITE_OK, "failed to prepare insert statement");
+  assert(rc == SQLITE_OK, "failed to prepare insert statement");
 
   for (i = 0; i < length; i++) {
     rc = sqlite3_bind_int(stmt, 1, array[i]);
-    assert(rc != SQLITE_OK, "failed to bind a int");
+    assert(rc == SQLITE_OK, "failed to bind a int");
 
     rc = sqlite3_step(stmt);
-    assert(rc != SQLITE_OK, "failed to insert a value");
+    assert(rc == SQLITE_DONE, "failed to insert a value");
 
     sqlite3_reset(stmt);
   }
@@ -37,11 +37,11 @@ void sortql(int *array, int length) {
   sqlite3_finalize(stmt);
 
   rc = sqlite3_prepare_v2(connection, "SELECT num FROM array ORDER BY num", -1, &stmt, NULL);
-  assert(rc != SQLITE_OK, "failed to prepare select statement");
+  assert(rc == SQLITE_OK, "failed to prepare select statement");
 
   for (i = 0; i < length; i++) {
     rc = sqlite3_step(stmt);
-    assert(rc != SQLITE_OK, "failed to select a value");
+    assert(rc == SQLITE_ROW, "failed to select a value");
 
     array[i] = sqlite3_column_int(stmt, 0);
   }
