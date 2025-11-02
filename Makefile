@@ -11,7 +11,7 @@ endif
 all: build test
 
 build:
-	$(CC) $(CFLAGS) -shared -fPIC -o $(OUTPUT) sortql.c
+	$(CC) $(CFLAGS) -shared -fPIC -o $(OUTPUT) sortql.c -lsqlite3
 
 test:
 	$(CC) $(CFLAGS) test.c $(OUTPUT)
