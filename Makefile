@@ -8,7 +8,7 @@ ifdef DEBUG
 	CFLAGS += -Werror -fsanitize=address -fsanitize=undefined
 endif
 
-all: build test
+all: build
 
 build:
 	$(CC) $(CFLAGS) -shared -fPIC -o $(OUTPUT) sortql.c -lsqlite3
